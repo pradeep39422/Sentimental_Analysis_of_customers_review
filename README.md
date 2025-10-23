@@ -17,59 +17,12 @@ An AI-powered sentiment analysis tool that analyzes customer feedback and determ
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Machine Learning**: scikit-learn, XGBoost
 - **Data Processing**: pandas, numpy
-- **Alternative Interface**: Streamlit
 
 ## 📋 Prerequisites
 
 - Python 3.8+
 - pip (Python package manager)
 - Virtual environment (recommended)
-
-## 🚀 Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <your-repo-url>
-   cd qqqqSentimental_Analysis_of_customers
-   ```
-
-2. Create and activate a virtual environment (recommended):
-   ```bash
-   python -m venv venv
-   
-   # Windows
-   venv\Scripts\activate
-   
-   # Unix/MacOS
-   source venv/bin/activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## 💫 Running the Application
-
-### Web Interface (Flask)
-
-1. Start the Flask server:
-   ```bash
-   python api.py
-   ```
-   The server will start on http://127.0.0.1:5000
-
-2. Access the web interface:
-   - Open your browser and visit http://127.0.0.1:5000
-   - Or http://127.0.0.1:5000/templates/landing.html
-
-### Streamlit Interface (Alternative)
-
-1. Make sure the Flask server is running (see above)
-2. In a new terminal, run:
-   ```bash
-   streamlit run main.py
-   ```
 
 ## 📁 Project Structure
 
@@ -132,23 +85,6 @@ response = requests.post(
 print(response.json())  # {"prediction": "Positive"}
 ```
 
-## 🔧 Configuration
-
-The application can be configured using environment variables:
-
-- `PORT`: Change the Flask server port (default: 5000)
-- `PREDICTION_ENDPOINT`: Configure Streamlit client API endpoint
-
-Example:
-```bash
-# Windows
-set PORT=3000
-python api.py
-
-# Unix/MacOS
-export PORT=3000
-python api.py
-```
 
 ## 🧪 Model Details
 
@@ -165,11 +101,3 @@ The sentiment analysis model uses:
 - CORS is enabled for API access from different origins
 - The model handles negations specially (e.g., "not good" → negative)
 - Examples are provided in the UI for quick testing
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
