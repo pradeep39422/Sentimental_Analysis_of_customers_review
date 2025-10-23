@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        #textInput {
+            width: 100%;
+            min-height: 120px;
+            padding: 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        #textInput:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #textInput::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .predict-btn:active {
+            transform: translateY(0);
+        }
+
+        .predict-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .result-positive {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .result-negative {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .result-neutral {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .result-error {
+            background: linear-gradient(135deg, #9e9e9e, #757575);
+            color: white;
+            box-shadow: 0 4px 15px rgba(158, 158, 158, 0.3);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .examples {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .examples h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .example-item {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .example-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            #textInput {
+                min-height: 100px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 Sentiment Analysis</h1>
+            <p>Analyze the emotional tone of your text with our AI-powered sentiment analysis tool</p>
+        </div>
+
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="textInput">Enter your text to analyze:</label>
+                <textarea id="textInput" placeholder="Type your text here... (e.g., 'I love this product!' or 'This is terrible!')"></textarea>
+            </div>
+            
+            <button type="button" class="predict-btn" onclick="predict()">
+                🔍 Analyze Sentiment
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #666;">Analyzing your text...</p>
+        </div>
+
+        <div id="predictionResult" class="result-container" style="display: none;"></div>
+
+        <div class="examples">
+            <h3>💡 Try these examples:</h3>
+            <div class="example-item" onclick="setText('I absolutely love this product! It exceeded my expectations.')">
+                "I absolutely love this product! It exceeded my expectations."
+            </div>
+            <div class="example-item" onclick="setText('This is the worst purchase I have ever made. Very disappointing.')">
+                "This is the worst purchase I have ever made. Very disappointing."
+            </div>
+            <div class="example-item" onclick="setText('The service was okay, nothing special but not bad either.')">
+                "The service was okay, nothing special but not bad either."
+            </div>
+            <div class="example-item" onclick="setText('Amazing quality and excellent customer service! Highly recommended.')">
+                "Amazing quality and excellent customer service! Highly recommended."
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Powered by Machine Learning • Built with ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        function setText(text) {
+            document.getElementById('textInput').value = text;
+        }
+
+        function predict() {
+            var textInput = document.getElementById("textInput");
+            var predictionResult = document.getElementById("predictionResult");
+            var loading = document.getElementById("loading");
+            var predictBtn = document.querySelector('.predict-btn');
+
+            if (textInput.value.trim() === "") {
+                showResult("Please enter some text to analyze.", "result-error");
+                return;
+            }
+
+            // Show loading state
+            loading.style.display = "block";
+            predictionResult.style.display = "none";
+            predictBtn.disabled = true;
+            predictBtn.textContent = "⏳ Analyzing...";
+
+            // Make API call (use relative path so the page works when served by the Flask app)
+            fetch("/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "text": textInput.value.trim() })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                var sentiment = data.prediction;
+                var emoji = sentiment === "Positive" ? "😊" : "😞";
+                var message = `${emoji} Sentiment: ${sentiment}`;
+                
+                var resultClass = sentiment === "Positive" ? "result-positive" : "result-negative";
+                showResult(message, resultClass);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                showResult("❌ Error: Unable to analyze text. Please try again.", "result-error");
+            })
+            .finally(() => {
+                // Hide loading state
+                loading.style.display = "none";
+                predictBtn.disabled = false;
+                predictBtn.textContent = "🔍 Analyze Sentiment";
+            });
+        }
+
+        function showResult(message, className) {
+            var predictionResult = document.getElementById("predictionResult");
+            predictionResult.innerHTML = message;
+            predictionResult.className = "result-container " + className;
+            predictionResult.style.display = "flex";
+        }
+
+        // Allow Enter key to trigger prediction
+        document.getElementById('textInput').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                predict();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
