@@ -60,32 +60,6 @@ An AI-powered sentiment analysis tool that analyzes customer feedback and determ
   }
   ```
 
-### Test Endpoint
-- **URL**: `/test`
-- **Method**: GET
-- **Response**: Server status message
-
-## 🎯 Usage Examples
-
-```python
-# Using requests library
-import requests
-import json
-
-# Local development
-url = "http://127.0.0.1:5000/predict"
-text = "I love this product! It's amazing!"
-
-response = requests.post(
-    url,
-    headers={"Content-Type": "application/json"},
-    data=json.dumps({"text": text})
-)
-
-print(response.json())  # {"prediction": "Positive"}
-```
-
-
 ## 🧪 Model Details
 
 The sentiment analysis model uses:
