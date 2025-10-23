@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import re
-
-# nltk.download('stopwords')
+import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import pickle
