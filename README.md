@@ -75,3 +75,9 @@ The sentiment analysis model uses:
 - CORS is enabled for API access from different origins
 - The model handles negations specially (e.g., "not good" → negative)
 - Examples are provided in the UI for quick testing
+
+## 📝 Future scope of work 
+
+- Analyze large-scale data from CSV or text files for efficient sentiment prediction.
+- Visualize results using interactive graphs and charts for easier interpretation.
+- Enable multilingual sentiment detection to serve diverse user bases.
