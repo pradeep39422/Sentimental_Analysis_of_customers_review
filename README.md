@@ -42,24 +42,6 @@ An AI-powered sentiment analysis tool that analyzes customer feedback and determ
     └── landing.html      # Alternative landing page
 ```
 
-## 🔄 API Endpoints
-
-### Sentiment Analysis
-- **URL**: `/predict`
-- **Method**: POST
-- **Body**:
-  ```json
-  {
-    "text": "Your text to analyze"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "prediction": "Positive"
-  }
-  ```
-
 ## 🧪 Model Details
 
 The sentiment analysis model uses:
@@ -78,6 +60,6 @@ The sentiment analysis model uses:
 
 ## 📝 Future scope of work 
 
-- Analyze large-scale data from CSV or text files for efficient sentiment prediction.
-- Visualize results using interactive graphs and charts for easier interpretation.
+- Analyze large-scale data from CSV or text files for efficient sentiment analysis.
+- Visualizing results using interactive graphs and charts for easier interpretation.
 - Enable multilingual sentiment detection to serve diverse user bases.
